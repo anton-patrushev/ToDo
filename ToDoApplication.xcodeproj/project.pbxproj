@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		53E6BEE5C90F7D943E9AF9FD /* Pods_ToDoApplication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC7C8F67359374BEB59B28F0 /* Pods_ToDoApplication.framework */; };
+		9221AE3826D57FAD0073F29C /* TaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9221AE3726D57FAD0073F29C /* TaskCell.swift */; };
 		924F778326CF8A7900CED3FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924F778226CF8A7900CED3FC /* AppDelegate.swift */; };
 		924F778526CF8A7900CED3FC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924F778426CF8A7900CED3FC /* SceneDelegate.swift */; };
 		924F778C26CF8A7E00CED3FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 924F778B26CF8A7E00CED3FC /* Assets.xcassets */; };
@@ -25,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9221AE3726D57FAD0073F29C /* TaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCell.swift; sourceTree = "<group>"; };
 		924F777F26CF8A7900CED3FC /* ToDoApplication.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDoApplication.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		924F778226CF8A7900CED3FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		924F778426CF8A7900CED3FC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 			children = (
 				92CA50AB26D2D8E6002DF631 /* TasksListView.swift */,
 				92CA50AD26D2D9BF002DF631 /* TasksListViewController.swift */,
+				9221AE3726D57FAD0073F29C /* TaskCell.swift */,
 			);
 			path = TasksList;
 			sourceTree = "<group>";
@@ -351,6 +354,7 @@
 				92CA50AC26D2D8E7002DF631 /* TasksListView.swift in Sources */,
 				924F778526CF8A7900CED3FC /* SceneDelegate.swift in Sources */,
 				92CA50BA26D2DD5E002DF631 /* TasksServiceProtocol.swift in Sources */,
+				9221AE3826D57FAD0073F29C /* TaskCell.swift in Sources */,
 				92CA50AE26D2D9BF002DF631 /* TasksListViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

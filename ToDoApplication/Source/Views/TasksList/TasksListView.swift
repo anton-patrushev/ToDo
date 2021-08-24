@@ -15,22 +15,22 @@ class TasksListView: UIView {
     init() {
         super.init(frame: .zero)
         
-        self.setup()
+        self.configure()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setup() {
+    private func configure() {
         self.backgroundColor = .white
         
         self.tableView.tableFooterView = UIView()
-        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        self.tableView.register(TaskCell.self, forCellReuseIdentifier: TaskCell.identifier)
         self.addSubview(self.tableView)
         
         self.tableView.snp.makeConstraints { make in
-            make.width.height.equalTo(self)
+            make.edges.equalToSuperview()
         }
     }
 }

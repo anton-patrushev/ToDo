@@ -30,14 +30,24 @@ class TasksListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.configureNavigationController()
+        
+        let taskViewModels = self.viewModel.getTaskViewModels()
+        
+        self.bindTasksTableView(to: taskViewModels)
+    }
+    
+    private func configureNavigationController() {
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.title = self.viewModel.navigationTitle
-        
-        self.viewModel.getTaskViewModels()
+    }
+    
+    private func bindTasksTableView(to taskViewModels: Observable<[ListTaskViewModel]>) {
+        taskViewModels
             .observe(on: MainScheduler.instance)
-            .bind(to: self.mainView.tableView.rx.items(cellIdentifier: "cell")) {
+            .bind(to: self.mainView.tableView.rx.items(cellIdentifier: TaskCell.identifier, cellType: TaskCell.self)) {
                 index, taskViewModel, cell in
-                cell.textLabel?.text = taskViewModel.displayTitle
+                cell.configureWithTask(taskViewModel)
             }
             .disposed(by: self.disposeBag)
     }
