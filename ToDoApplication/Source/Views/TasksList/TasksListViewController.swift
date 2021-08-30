@@ -10,7 +10,6 @@ import RxSwift
 import RxCocoa
 
 class TasksListViewController: UIViewController {
-    
     private var mainView: TasksListView {
         guard let mainView = self.view as? TasksListView else {
             fatalError("TasksListViewController.view must be a TasksListView type")
@@ -21,7 +20,7 @@ class TasksListViewController: UIViewController {
     
     private let disposeBag = DisposeBag()
     
-    private let viewModel = TasksListViewModel()
+    var viewModel: TasksListViewModel!
     
     override func loadView() {
         view = TasksListView()
@@ -35,6 +34,7 @@ class TasksListViewController: UIViewController {
         let taskViewModels = self.viewModel.getTaskViewModels()
         
         self.bindTasksTableView(to: taskViewModels)
+        self.configureTaskCellTapHandling()
     }
     
     private func configureNavigationController() {
@@ -49,6 +49,21 @@ class TasksListViewController: UIViewController {
                 index, taskViewModel, cell in
                 cell.configureWithTask(taskViewModel)
             }
+            .disposed(by: self.disposeBag)
+    }
+    
+    private func configureTaskCellTapHandling() {
+        self.mainView.tableView.rx
+            .modelSelected(ListTaskViewModel.self)
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [unowned self] task in
+                task.tapOnTask()
+                
+                if let selectedRowIndexPath = self.mainView.tableView.indexPathForSelectedRow {
+                    self.mainView.tableView.deselectRow(at: selectedRowIndexPath, animated: true)
+                }
+                
+            })
             .disposed(by: self.disposeBag)
     }
 }

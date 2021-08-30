@@ -11,11 +11,13 @@ import RxSwift
 
 
 class TasksListViewModel {
+    let coordinator: AppCoordinator
     let taskListService: TasksServiceProtocol
     
     var navigationTitle = "Home"
     
-    init(taskListService: TasksServiceProtocol = TasksService()) {
+    init(coordinator: AppCoordinator, taskListService: TasksServiceProtocol = TasksService()) {
+        self.coordinator = coordinator
         self.taskListService = taskListService
     }
     
@@ -23,7 +25,7 @@ class TasksListViewModel {
         return taskListService.getTasks()
             .map {
                 tasks in
-                return tasks.map { ListTaskViewModel(task :$0) }
+                return tasks.map { ListTaskViewModel(task :$0, coordinator: self.coordinator) }
             }
     }
 }
