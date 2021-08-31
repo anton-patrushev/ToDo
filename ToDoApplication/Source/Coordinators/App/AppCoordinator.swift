@@ -9,8 +9,10 @@ import Foundation
 import UIKit.UINavigationController
 
 class AppCoordinator: Coordinator {
+    var parentCoordinator: Coordinator?
+    
     let window: UIWindow
-    var navigationController = UINavigationController()
+    let navigationController = UINavigationController()
     
     internal var childCoordinators = [Coordinator]()
     
@@ -24,19 +26,10 @@ class AppCoordinator: Coordinator {
     }
     
     public func start() {
+        // TODO: put bootstrap logic
         self.configureWindow()
         
-        let vc = TasksListViewController()
-        vc.viewModel = TasksListViewModel(coordinator: self)
-        
-        self.navigationController.pushViewController(vc, animated: false)
-    }
-    
-    public func startTaskDetail(with taskDetailViewModel: TaskDetailViewModel) {
-        let taskDetailCoordinator =
-            TaskDetailCoordinator(navigationController: self.navigationController, with: taskDetailViewModel)
-        taskDetailCoordinator.start()
-        
-        childCoordinators.append(taskDetailCoordinator)
+        let taskListCoordinator = TasksListCoordinator(navigationController: self.navigationController)
+        taskListCoordinator.start()
     }
 }

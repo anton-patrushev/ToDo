@@ -8,14 +8,14 @@
 import Foundation
 
 class ListTaskViewModel {
-    private let coordinator: AppCoordinator
+    private let coordinator: TasksListCoordinator
     private let task: Task
     
     public var displayTitle: String {
         return self.task.title
     }
     
-    init(task:Task, coordinator: AppCoordinator) {
+    init(task:Task, coordinator: TasksListCoordinator) {
         self.coordinator = coordinator
         self.task = task
     }

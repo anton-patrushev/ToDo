@@ -6,15 +6,16 @@
 //
 
 import Foundation
-import UIKit.UIColor
 
 class TaskDetailViewModel {
+    unowned var coordinator: Coordinator!
     private let task: Task
     
     init(buildWith task: Task) {
         self.task = task
-        screenColor = .blue
     }
     
-    public private(set) var screenColor: UIColor
+    public func tapOnTestButton() {
+        coordinator.didFinish()
+    }
 }
