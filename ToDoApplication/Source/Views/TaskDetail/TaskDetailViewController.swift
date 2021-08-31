@@ -9,31 +9,30 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class TaskDetailViewController: UIViewController {
-    private var mainView: TaskDetailView {
-        guard let mainView = self.view as? TaskDetailView else {
-            fatalError("TaskDetailViewController.view must be a TaskDetailView type")
-        }
-        
-        return mainView
-    }
-    
+class TaskDetailViewController: BaseViewControllerWithInjectedMainView<TaskDetailView> {
     var viewModel: TaskDetailViewModel!
     private let disposeBag = DisposeBag()
-    
-    override func loadView() {
-        view = TaskDetailView()
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.configureTestButton()
+        self.configureContent()
+        self.configureNavigationController()
     }
     
-    private func configureTestButton() {
-        self.mainView.testButton.rx.tap.bind { [unowned self] in
-            self.viewModel.tapOnTestButton()
-        }.disposed(by: self.disposeBag)
+    private func configureNavigationController() {
+        self.navigationItem.largeTitleDisplayMode = .never
+    }
+    
+    private func configureContent() {
+        self.viewModel.taskTitle
+            .observe(on: MainScheduler.instance)
+            .bind(to: self.mainView.taskTitleLabel.rx.text)
+            .disposed(by: self.disposeBag)
+        
+        self.viewModel.taskContent
+            .observe(on: MainScheduler.instance)
+            .bind(to: self.mainView.taskContentLabel.rx.text)
+            .disposed(by: self.disposeBag)
     }
 }

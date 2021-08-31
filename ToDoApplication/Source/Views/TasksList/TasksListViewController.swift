@@ -9,22 +9,10 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class TasksListViewController: UIViewController {
-    private var mainView: TasksListView {
-        guard let mainView = self.view as? TasksListView else {
-            fatalError("TasksListViewController.view must be a TasksListView type")
-        }
-        
-        return mainView
-    }
-    
+class TasksListViewController: BaseViewControllerWithInjectedMainView<TasksListView> {
     private let disposeBag = DisposeBag()
     
     var viewModel: TasksListViewModel!
-    
-    override func loadView() {
-        view = TasksListView()
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +27,7 @@ class TasksListViewController: UIViewController {
     
     private func configureNavigationController() {
         self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.navigationItem.largeTitleDisplayMode = .always
         self.navigationItem.title = self.viewModel.navigationTitle
     }
     

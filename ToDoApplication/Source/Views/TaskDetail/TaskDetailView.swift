@@ -10,7 +10,9 @@ import SnapKit
 
 class TaskDetailView: UIView {
     
-    var testButton = UIButton(type: .system)
+    var containerScrollView = UIScrollView(frame: .zero)
+    var taskTitleLabel = UILabel()
+    var taskContentLabel = UILabel()
     
     init() {
         super.init(frame: .zero)
@@ -25,11 +27,27 @@ class TaskDetailView: UIView {
     private func configure() {
         self.backgroundColor = .white
         
-        self.testButton.setTitle("Test button", for: .normal)
-        self.addSubview(self.testButton)
+        self.taskTitleLabel.font = UIFont.boldSystemFont(ofSize: 24)
         
-        self.testButton.snp.makeConstraints { make in
-            make.center.equalToSuperview()
+        self.containerScrollView.alwaysBounceVertical = true
+        
+        self.addSubview(self.containerScrollView)
+        self.containerScrollView.addSubview(self.taskTitleLabel)
+        self.containerScrollView.addSubview(self.taskContentLabel)
+        
+        self.containerScrollView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+            make.left.equalToSuperview()        }
+        
+        self.taskTitleLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(10)
+            make.leading.equalToSuperview().offset(10)
+        }
+        
+        self.taskContentLabel.snp.makeConstraints { make in
+            make.top.equalTo(self.taskTitleLabel).offset(40)
+            make.leading.equalToSuperview().offset(10)
+            make.trailing.equalToSuperview().offset(-10)
         }
     }
 }
