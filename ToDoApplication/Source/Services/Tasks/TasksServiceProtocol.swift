@@ -10,4 +10,5 @@ import RxSwift
 
 protocol TasksServiceProtocol {
     func getTasks() -> Observable<[Task]>
+    func createTask(title: String, content: String) -> Observable<Task>
 }

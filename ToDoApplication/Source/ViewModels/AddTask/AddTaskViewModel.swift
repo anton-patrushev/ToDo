@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RxSwift
 
 class AddTaskViewModel {
     var coordinator: Coordinator!
@@ -16,8 +17,14 @@ class AddTaskViewModel {
         self.tasksService = tasksService
     }
     
+    public var taskTitle = BehaviorSubject<String?>(value: nil)
+    public var taskContent = BehaviorSubject<String?>(value: nil)
+    
     // TODO: change
     public func createTask() {
+        guard let title = try? self.taskTitle.value() else { return }
+        guard let content = try? self.taskContent.value() else { return }
         
+        self.tasksService.createTask(title: title, content: content)
     }
 }

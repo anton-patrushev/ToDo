@@ -23,12 +23,14 @@ class TasksListViewController: BaseViewControllerWithInjectedMainView<TasksListV
         
         self.bindTasksTableView(to: taskViewModels)
         self.configureTaskCellTapHandling()
+        self.bindAddTaskBarButton()
     }
     
     private func configureNavigationController() {
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.largeTitleDisplayMode = .always
         self.navigationItem.title = self.viewModel.navigationTitle
+        self.navigationItem.rightBarButtonItem = self.mainView.addTaskBarButton
     }
     
     private func bindTasksTableView(to taskViewModels: Observable<[ListTaskViewModel]>) {
@@ -54,5 +56,11 @@ class TasksListViewController: BaseViewControllerWithInjectedMainView<TasksListV
                 
             })
             .disposed(by: self.disposeBag)
+    }
+    
+    private func bindAddTaskBarButton() {
+        self.mainView.addTaskBarButton.rx.tap.bind {
+            self.viewModel.openAddTask()
+        }.disposed(by: self.disposeBag)
     }
 }

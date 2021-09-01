@@ -10,7 +10,16 @@ import SnapKit
 
 class TasksListView: UIView {
     
-    var tableView = UITableView()
+    lazy var tableView: UITableView = { UITableView() }()
+    lazy var addTaskImage: UIImage? = { UIImage(systemName: "plus.circle.fill") }()
+    lazy var addTaskBarButton: UIBarButtonItem = {
+        var button = UIBarButtonItem()
+        
+        button.image = addTaskImage
+        button.style = .plain
+        
+        return button
+    }()
     
     init() {
         super.init(frame: .zero)

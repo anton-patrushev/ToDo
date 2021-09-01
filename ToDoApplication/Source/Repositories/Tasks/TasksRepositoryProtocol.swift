@@ -10,4 +10,5 @@ import RxSwift
 
 protocol TasksRepositoryProtocol {
     func loadTasks() -> Observable<[Task]>
+    func saveTask(input: TaskRepositoryInput) -> Observable<Task>
 }

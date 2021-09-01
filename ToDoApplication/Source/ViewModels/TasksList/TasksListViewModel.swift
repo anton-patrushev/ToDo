@@ -20,11 +20,15 @@ class TasksListViewModel {
         self.taskListService = taskListService
     }
     
-    func getTaskViewModels() -> Observable<[ListTaskViewModel]> {
+    public func getTaskViewModels() -> Observable<[ListTaskViewModel]> {
         return taskListService.getTasks()
             .map {
                 tasks in
                 return tasks.map { ListTaskViewModel(task :$0, coordinator: self.coordinator) }
             }
+    }
+    
+    public func openAddTask() {
+        self.coordinator.startAddTask()
     }
 }

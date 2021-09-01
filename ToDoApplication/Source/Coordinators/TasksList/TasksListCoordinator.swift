@@ -42,4 +42,12 @@ class TasksListCoordinator: Coordinator {
         
         childCoordinators.append(taskDetailCoordinator)
     }
+    
+    public func startAddTask() {
+        let addTaskCoordinator = AddTaskCoordinator(navigationController: self.navigationController,
+                                                    parentCoordinator: self.parentCoordinator)
+        addTaskCoordinator.start()
+        
+        childCoordinators.append(addTaskCoordinator)
+    }
 }

@@ -27,12 +27,12 @@ class TaskDetailViewController: BaseViewControllerWithInjectedMainView<TaskDetai
     private func configureContent() {
         self.viewModel.taskTitle
             .observe(on: MainScheduler.instance)
-            .bind(to: self.mainView.taskTitleLabel.rx.text)
+            .bind(to: self.mainView.taskTitleField.rx.text)
             .disposed(by: self.disposeBag)
         
         self.viewModel.taskContent
             .observe(on: MainScheduler.instance)
-            .bind(to: self.mainView.taskContentLabel.rx.text)
+            .bind(to: self.mainView.taskContentField.rx.text)
             .disposed(by: self.disposeBag)
     }
 }

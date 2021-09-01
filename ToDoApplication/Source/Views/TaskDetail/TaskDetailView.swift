@@ -10,9 +10,30 @@ import SnapKit
 
 class TaskDetailView: UIView {
     
-    var containerScrollView = UIScrollView(frame: .zero)
-    var taskTitleLabel = UILabel()
-    var taskContentLabel = UILabel()
+    lazy var containerScrollView: UIScrollView = {
+        let scrollView = UIScrollView(frame: .zero)
+        scrollView.alwaysBounceVertical = true
+        scrollView.alwaysBounceHorizontal = false
+        
+        return scrollView
+    }()
+    lazy var containerView: UIView = { UIView(frame: .zero) }()
+    lazy var taskTitleField: UITextView = {
+        var field = UITextView()
+
+        field.font = UIFont.preferredFont(forTextStyle: .largeTitle)
+        field.isScrollEnabled = false
+        
+        return field
+    }()
+    lazy var taskContentField: UITextView = {
+        var field =  UITextView()
+        
+        field.font = UIFont.preferredFont(forTextStyle: .body)
+        field.isScrollEnabled = false
+    
+        return field
+    }()
     
     init() {
         super.init(frame: .zero)
@@ -27,27 +48,32 @@ class TaskDetailView: UIView {
     private func configure() {
         self.backgroundColor = .white
         
-        self.taskTitleLabel.font = UIFont.boldSystemFont(ofSize: 24)
-        
-        self.containerScrollView.alwaysBounceVertical = true
-        
         self.addSubview(self.containerScrollView)
-        self.containerScrollView.addSubview(self.taskTitleLabel)
-        self.containerScrollView.addSubview(self.taskContentLabel)
+        self.containerScrollView.addSubview(self.containerView)
+        self.containerView.addSubview(self.taskTitleField)
+        self.containerView.addSubview(self.taskContentField)
         
         self.containerScrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
-            make.left.equalToSuperview()        }
-        
-        self.taskTitleLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(10)
-            make.leading.equalToSuperview().offset(10)
         }
         
-        self.taskContentLabel.snp.makeConstraints { make in
-            make.top.equalTo(self.taskTitleLabel).offset(40)
+        self.containerView.snp.makeConstraints { make in
+            make.left.right.equalTo(self)
+            make.width.equalTo(self.containerScrollView)
+            make.height.equalTo(self.containerScrollView)
+        }
+        
+        self.taskTitleField.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(10)
             make.leading.equalToSuperview().offset(10)
             make.trailing.equalToSuperview().offset(-10)
+        }
+        
+        self.taskContentField.snp.makeConstraints { make in
+            make.top.equalTo(self.taskTitleField.snp.bottom)
+            make.leading.equalToSuperview().offset(10)
+            make.trailing.equalToSuperview().offset(-10)
+            //            make.height.greaterThanOrEqualToSuperview()
         }
     }
 }
