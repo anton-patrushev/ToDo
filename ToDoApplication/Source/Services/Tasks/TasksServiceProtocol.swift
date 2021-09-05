@@ -9,6 +9,7 @@ import Foundation
 import RxSwift
 
 protocol TasksServiceProtocol {
-    func getTasks() -> Observable<[Task]>
-    func createTask(title: String, content: String) -> Observable<Task>
+    func getTasks() ->  Observable<[Task]>
+    func createTask(task: CreateTaskServiceInput)
+    func updateTask(task: UpdateTaskServiceInput) -> Task?
 }

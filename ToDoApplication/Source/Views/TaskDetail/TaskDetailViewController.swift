@@ -16,23 +16,37 @@ class TaskDetailViewController: BaseViewControllerWithInjectedMainView<TaskDetai
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.configureContent()
+        self.bindInputs()
         self.configureNavigationController()
+        self.bindTaskSave()
     }
     
     private func configureNavigationController() {
         self.navigationItem.largeTitleDisplayMode = .never
+        self.navigationItem.rightBarButtonItem = self.mainView.saveTaskBarButton
     }
     
-    private func configureContent() {
+    private func bindInputs() {
+        self.viewModel.taskContent
+            .bind(to: self.mainView.taskContentField.rx.text)
+            .disposed(by: self.disposeBag)
+        
+        self.mainView.taskContentField.rx.text
+            .bind(to: self.viewModel.taskContent)
+            .disposed(by: self.disposeBag)
+        
         self.viewModel.taskTitle
-            .observe(on: MainScheduler.instance)
             .bind(to: self.mainView.taskTitleField.rx.text)
             .disposed(by: self.disposeBag)
         
-        self.viewModel.taskContent
-            .observe(on: MainScheduler.instance)
-            .bind(to: self.mainView.taskContentField.rx.text)
+        self.mainView.taskTitleField.rx.text
+            .bind(to: self.viewModel.taskTitle)
             .disposed(by: self.disposeBag)
+    }
+    
+    private func bindTaskSave() {
+        self.mainView.saveTaskBarButton.rx.tap.bind {
+            self.viewModel.updateTask()
+        }.disposed(by: self.disposeBag)
     }
 }

@@ -16,12 +16,15 @@ class TasksListViewModel {
     
     var navigationTitle = "Home"
     
-    init(taskListService: TasksServiceProtocol = TasksService()) {
+    init(taskListService: TasksServiceProtocol = TasksService.shared) {
         self.taskListService = taskListService
     }
     
     public func getTaskViewModels() -> Observable<[ListTaskViewModel]> {
-        return taskListService.getTasks()
+        
+        let tasks = taskListService.getTasks()
+        
+        return tasks
             .map {
                 tasks in
                 return tasks.map { ListTaskViewModel(task :$0, coordinator: self.coordinator) }

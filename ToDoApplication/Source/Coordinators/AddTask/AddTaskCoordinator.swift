@@ -19,8 +19,11 @@ class AddTaskCoordinator: Coordinator {
     }
     
     func start() {
+        let viewModel = AddTaskViewModel()
+        viewModel.coordinator = self
+        
         let vc = AddTaskViewController()
-        vc.viewModel = AddTaskViewModel()
+        vc.viewModel = viewModel
         
         self.navigationController.pushViewController(vc, animated: true)
     }

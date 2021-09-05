@@ -6,7 +6,10 @@
 //
 
 import Foundation
-import RxSwift
+
+enum UpdateTaskError: Error {
+    case taskNotFound
+}
 
 class FakeTasksRepository: TasksRepositoryProtocol {
     private var mockedTasksArray: [Task] = [
@@ -18,40 +21,50 @@ class FakeTasksRepository: TasksRepositoryProtocol {
         Task(id: "y68jsdf0", title: "End Title", content: "943452"),
     ]
     
-    public func loadTasks() -> Observable<[Task]> {
-        return Observable.create { observer in
-            observer.onNext(self.mockedTasksArray)
-            observer.onCompleted()
-            
-            return Disposables.create()
-        }
+    public func loadTasks() -> [Task] {
+        return self.mockedTasksArray
     }
     
-    public func saveTask(input: TaskRepositoryInput) -> Observable<Task> {
-        return Observable.create { observer in
-            let task = self.buildTaskFromInput(input)
-            
-            self.mockedTasksArray.append(task)
-            
-            observer.onNext(task)
-            observer.onCompleted()
-            
-            return Disposables.create()
+    public func saveTask(input: TaskRepositoryInput) -> Task {
+        let task = self.createNewTask(from: input)
+        self.mockedTasksArray.append(task)
+        
+        return task
+    }
+    
+    func editTask(id: String, input: TaskRepositoryInput) throws -> Task {
+        var task = self.buildTaskFromInput(input)
+        task.id = id
+        
+        guard let indexToReplace = self.mockedTasksArray.firstIndex(where: { $0.id == task.id }) else {
+            throw UpdateTaskError.taskNotFound
         }
+        
+        self.mockedTasksArray[indexToReplace] = task
+        
+        return task
+    }
+    
+    private func createNewTask(from input: TaskRepositoryInput) -> Task {
+        let id = self.nowDate
+        var task = self.buildTaskFromInput(input)
+        
+        task.id = id
+        
+        return task
     }
     
     private func buildTaskFromInput(_ input: TaskRepositoryInput) -> Task {
-        let id = self.nowDate
-        
-        print("new id -> \(id)")
-        
-        return Task(id: id, title: input.title, content: input.content)
+        return Task(id: "temp-id", title: input.title, content: input.content)
     }
     
     private var nowDate: String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .full
+        let nowDate = Date().timeIntervalSince1970
         
-        return dateFormatter.string(from: Date())
+        return String(nowDate)
     }
+}
+
+extension FakeTasksRepository {
+    static var shared = FakeTasksRepository()
 }

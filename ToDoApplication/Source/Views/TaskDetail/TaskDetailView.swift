@@ -34,6 +34,15 @@ class TaskDetailView: UIView {
     
         return field
     }()
+    lazy var saveTaskBarButton: UIBarButtonItem = {
+        var button = UIBarButtonItem()
+        
+        button.title = "Save"
+        button.style = .plain
+        
+        return button
+    }()
+    
     
     init() {
         super.init(frame: .zero)
