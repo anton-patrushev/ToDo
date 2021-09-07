@@ -11,7 +11,7 @@ enum UpdateTaskError: Error {
     case taskNotFound
 }
 
-class FakeTasksRepository: TasksRepositoryProtocol {
+class FakeTaskRepository: TaskRepository {
     private var mockedTasksArray: [Task] = [
         Task(id: "1sgj5o", title: "Title 1", content: "ldsfhgljsh gkhfdskjghkskjdfhgk sfgjhdgkj "),
         Task(id: "9gfd590", title: "Title 2", content: "GJ fldkg fodg Sghjksdl g dskfgj h lsdjfhg lhdsflghsdfgksdgkjdfgkj"),
@@ -65,6 +65,6 @@ class FakeTasksRepository: TasksRepositoryProtocol {
     }
 }
 
-extension FakeTasksRepository {
-    static var shared = FakeTasksRepository()
+extension FakeTaskRepository {
+    static var shared = FakeTaskRepository()
 }

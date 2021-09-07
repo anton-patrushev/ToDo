@@ -49,4 +49,8 @@ class TaskDetailViewController: BaseViewControllerWithInjectedMainView<TaskDetai
             self.viewModel.updateTask()
         }.disposed(by: self.disposeBag)
     }
+    
+    deinit {
+        print("deinit TaskDetailViewController")
+    }
 }

@@ -85,4 +85,8 @@ class TaskDetailView: UIView {
             //            make.height.greaterThanOrEqualToSuperview()
         }
     }
+    
+    deinit {
+        print("release TaskDetailView")
+    }
 }

@@ -11,9 +11,9 @@ import RxSwift
 class AddTaskViewModel {
     var coordinator: Coordinator!
 
-    private let tasksService: TasksServiceProtocol
+    private let tasksService: TaskService
     
-    init(tasksService: TasksServiceProtocol = TasksService.shared) {
+    init(tasksService: TaskService = TaskServiceImpl.shared) {
         self.tasksService = tasksService
     }
     

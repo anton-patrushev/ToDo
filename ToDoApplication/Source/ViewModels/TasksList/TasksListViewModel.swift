@@ -12,11 +12,11 @@ import RxSwift
 
 class TasksListViewModel {
     var coordinator: TasksListCoordinator!
-    let taskListService: TasksServiceProtocol
+    let taskListService: TaskService
     
     var navigationTitle = "Home"
     
-    init(taskListService: TasksServiceProtocol = TasksService.shared) {
+    init(taskListService: TaskService = TaskServiceImpl.shared) {
         self.taskListService = taskListService
     }
     

@@ -8,7 +8,7 @@
 import Foundation
 import RxSwift
 
-protocol TasksServiceProtocol {
+protocol TaskService: AnyObject {
     func getTasks() ->  Observable<[Task]>
     func createTask(task: CreateTaskServiceInput)
     func updateTask(task: UpdateTaskServiceInput) -> Task?
