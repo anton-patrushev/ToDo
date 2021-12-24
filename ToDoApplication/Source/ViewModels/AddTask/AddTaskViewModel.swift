@@ -9,11 +9,11 @@ import Foundation
 import RxSwift
 
 class AddTaskViewModel {
-    var coordinator: Coordinator!
+    unowned var coordinator: Coordinator!
 
-    private let tasksService: TasksServiceProtocol
+    private let tasksService: TaskService // TODO: should it be unonwed ref?
     
-    init(tasksService: TasksServiceProtocol = TasksService.shared) {
+    init(tasksService: TaskService = TaskServiceImpl.shared) {
         self.tasksService = tasksService
     }
     

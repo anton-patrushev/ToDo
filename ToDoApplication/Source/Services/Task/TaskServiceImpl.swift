@@ -8,7 +8,7 @@
 import Foundation
 import RxSwift
 
-class TasksService: TasksServiceProtocol {
+class TaskServiceImpl: TaskService {
     
     private lazy var tasks = BehaviorSubject(value: [Task]())
     
@@ -16,9 +16,9 @@ class TasksService: TasksServiceProtocol {
         return (try? self.tasks.value()) ?? [Task]()
     }
     
-    let tasksRepository: TasksRepositoryProtocol
+    let tasksRepository: TaskRepository
     
-    init(tasksRepository: TasksRepositoryProtocol = FakeTasksRepository.shared) {
+    init(tasksRepository: TaskRepository = FakeTaskRepository.shared) {
         self.tasksRepository = tasksRepository
     }
     
@@ -59,6 +59,6 @@ class TasksService: TasksServiceProtocol {
     }
 }
 
-extension TasksService {
-    static var shared = TasksService()
+extension TaskServiceImpl {
+    static var shared = TaskServiceImpl()
 }

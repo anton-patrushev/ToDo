@@ -29,7 +29,6 @@ extension Coordinator {
         if let index = self.childCoordinators.lastIndex(where: { coordinator in
             return childCoordinator === coordinator
         }) {
-            
             self.childCoordinators.remove(at: index)
         }
     }

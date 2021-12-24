@@ -8,7 +8,7 @@
 import Foundation
 import RxSwift
 
-protocol TasksRepositoryProtocol {
+protocol TaskRepository {
     func loadTasks() -> [Task]
     func saveTask(input: TaskRepositoryInput) -> Task
     func editTask(id: String, input: TaskRepositoryInput) throws -> Task

@@ -8,7 +8,7 @@
 import UIKit
 
 class TaskDetailCoordinator: Coordinator {
-    var parentCoordinator: Coordinator?
+    weak var parentCoordinator: Coordinator?
     
     private let viewModel: TaskDetailViewModel
     let navigationController: UINavigationController
@@ -32,5 +32,9 @@ class TaskDetailCoordinator: Coordinator {
     public func didFinish() {
         self.parentCoordinator?.childDidFinish(self)
         self.navigationController.popViewController(animated: true)
+    }
+    
+    deinit {
+        print("release TaskDetailCoordinator")
     }
 }

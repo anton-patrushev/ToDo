@@ -11,9 +11,10 @@ import RxSwift
 class TaskDetailViewModel {
     unowned var coordinator: Coordinator!
     private var task: Task
-    private let tasksService: TasksServiceProtocol
+    unowned private let tasksService: TaskService
     
-    init(buildWith task: Task, tasksService: TasksServiceProtocol = TasksService.shared) {
+    init(buildWith task: Task, tasksService: TaskService = TaskServiceImpl.shared) {
+        print("init")
         self.task = task
         self.tasksService = tasksService
         
@@ -39,5 +40,9 @@ class TaskDetailViewModel {
     
     private func buildUpdateTaskServiceInput(from model: Task) -> UpdateTaskServiceInput {
         return UpdateTaskServiceInput(id: model.id, title: model.title, content: model.content)
+    }
+    
+    deinit {
+        print("release TaskDetailViewModel")
     }
 }

@@ -38,9 +38,8 @@ class AddTaskViewController: BaseViewControllerWithInjectedMainView<AddTaskView>
     }
     
     private func bindTaskSave() {
-        self.mainView.saveTaskBarButton.rx.tap.bind {
+        self.mainView.saveTaskBarButton.rx.tap.bind { [unowned self] in
             self.viewModel.createTask()
         }.disposed(by: self.disposeBag)
     }
-    
 }
