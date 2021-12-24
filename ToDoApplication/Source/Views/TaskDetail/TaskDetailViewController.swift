@@ -45,12 +45,12 @@ class TaskDetailViewController: BaseViewControllerWithInjectedMainView<TaskDetai
     }
     
     private func bindTaskSave() {
-        self.mainView.saveTaskBarButton.rx.tap.bind {
+        self.mainView.saveTaskBarButton.rx.tap.bind { [unowned self] in
             self.viewModel.updateTask()
         }.disposed(by: self.disposeBag)
     }
     
     deinit {
-        print("deinit TaskDetailViewController")
+        print("release TaskDetailViewController")
     }
 }

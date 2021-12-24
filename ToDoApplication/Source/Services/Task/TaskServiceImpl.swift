@@ -9,13 +9,6 @@ import Foundation
 import RxSwift
 
 class TaskServiceImpl: TaskService {
-    
-    private lazy var tasks = BehaviorSubject(value: [Task]())
-    
-    private var tasksCurrentValue: [Task] {
-        return (try? self.tasks.value()) ?? [Task]()
-    }
-    
     let tasksRepository: TaskRepository
     
     init(tasksRepository: TaskRepository = FakeTaskRepository.shared) {
@@ -27,35 +20,19 @@ class TaskServiceImpl: TaskService {
     }
     
     func getTasks() -> Observable<[Task]> {
-        let loadedTasks = self.tasksRepository.loadTasks()
-        
-        self.tasks.onNext(loadedTasks)
-        
-        return tasks.asObservable()
+        return self.tasksRepository.loadTasks()
     }
     
-    func createTask(task: CreateTaskServiceInput) {
-        let createdTask = self.tasksRepository
-            .saveTask(input: self.buildTaskRepositoryInput(title: task.title, content: task.content))
+    func createTask(task: CreateTaskServiceInput) -> Observable<Void> {
+        let createTaskRepositoryInput = self.buildTaskRepositoryInput(title: task.title, content: task.content)
         
-        var currentTasks = self.tasksCurrentValue
-        currentTasks.append(createdTask)
-        
-        self.tasks.onNext(currentTasks)
+        return self.tasksRepository.saveTask(input: createTaskRepositoryInput)
     }
     
-    func updateTask(task: UpdateTaskServiceInput) -> Task? {
+    func updateTask(task: UpdateTaskServiceInput) -> Observable<Task> {
         let repositoryInput = self.buildTaskRepositoryInput(title: task.title, content: task.content)
-        guard let updatedTask = try? self.tasksRepository.editTask(id: task.id, input: repositoryInput) else { return nil }
         
-        var currentTasks = self.tasksCurrentValue
-        
-        guard let indexToReplace = currentTasks.firstIndex(where: { $0.id == task.id }) else { return nil }
-        
-        currentTasks[indexToReplace] = updatedTask
-        
-        self.tasks.onNext(currentTasks)
-        return updatedTask
+        return self.tasksRepository.editTask(id: task.id, input: repositoryInput)
     }
 }
 
