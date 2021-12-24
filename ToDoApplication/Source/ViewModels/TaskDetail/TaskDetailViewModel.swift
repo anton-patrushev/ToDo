@@ -14,7 +14,6 @@ class TaskDetailViewModel {
     unowned private let tasksService: TaskService
     
     init(buildWith task: Task, tasksService: TaskService = TaskServiceImpl.shared) {
-        print("init")
         self.task = task
         self.tasksService = tasksService
         
@@ -36,6 +35,7 @@ class TaskDetailViewModel {
         }
         
         self.task = updatedTask
+        self.coordinator.didFinish()
     }
     
     private func buildUpdateTaskServiceInput(from model: Task) -> UpdateTaskServiceInput {

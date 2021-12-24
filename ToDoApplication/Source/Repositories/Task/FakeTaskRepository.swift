@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RxSwift
 
 enum UpdateTaskError: Error {
     case taskNotFound
@@ -21,28 +22,46 @@ class FakeTaskRepository: TaskRepository {
         Task(id: "y68jsdf0", title: "End Title", content: "943452"),
     ]
     
-    public func loadTasks() -> [Task] {
-        return self.mockedTasksArray
+    private var tasks = BehaviorSubject<[Task]>(value: [Task]())
+    
+    public func loadTasks() -> Observable<[Task]> {
+        self.tasks.onNext(self.mockedTasksArray)
+        
+        return self.tasks.asObservable()
     }
     
-    public func saveTask(input: TaskRepositoryInput) -> Task {
-        let task = self.createNewTask(from: input)
-        self.mockedTasksArray.append(task)
-        
-        return task
-    }
-    
-    func editTask(id: String, input: TaskRepositoryInput) throws -> Task {
-        var task = self.buildTaskFromInput(input)
-        task.id = id
-        
-        guard let indexToReplace = self.mockedTasksArray.firstIndex(where: { $0.id == task.id }) else {
-            throw UpdateTaskError.taskNotFound
+    public func saveTask(input: TaskRepositoryInput) -> Observable<Void> {
+        return Observable<Void>.create { observer in
+            let task = self.createNewTask(from: input)
+            self.mockedTasksArray.append(task)
+            
+            self.tasks.onNext(self.mockedTasksArray)
+            
+            observer.onCompleted()
+            
+            return Disposables.create()
         }
-        
-        self.mockedTasksArray[indexToReplace] = task
-        
-        return task
+    }
+    
+    func editTask(id: String, input: TaskRepositoryInput) -> Observable<Task> {
+        return Observable<Task>.create { observer in
+            let disposable = Disposables.create()
+            
+            var task = self.buildTaskFromInput(input)
+            task.id = id
+            
+            guard let indexToReplace = self.mockedTasksArray.firstIndex(where: { $0.id == task.id }) else {
+                observer.onError(UpdateTaskError.taskNotFound)
+                return disposable
+            }
+            
+            self.mockedTasksArray[indexToReplace] = task
+            self.tasks.onNext(self.mockedTasksArray)
+            
+            observer.onCompleted()
+            
+            return disposable
+        }
     }
     
     private func createNewTask(from input: TaskRepositoryInput) -> Task {

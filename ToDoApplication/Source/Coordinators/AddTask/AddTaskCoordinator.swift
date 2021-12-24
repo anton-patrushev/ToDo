@@ -7,6 +7,7 @@
 
 import UIKit
 
+// TODO: fix memory leak when back button pressed
 class AddTaskCoordinator: Coordinator {
     var parentCoordinator: Coordinator?
     var childCoordinators = [Coordinator]()

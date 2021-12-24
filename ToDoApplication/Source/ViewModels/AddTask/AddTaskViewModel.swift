@@ -10,7 +10,7 @@ import RxSwift
 
 class AddTaskViewModel {
     unowned var coordinator: Coordinator!
-
+    
     private let tasksService: TaskService // TODO: should it be unonwed ref?
     
     init(tasksService: TaskService = TaskServiceImpl.shared) {
@@ -35,8 +35,8 @@ class AddTaskViewModel {
         let createTaskServiceInput = self.buildCreateTaskServiceInput(title: title, content: content)
         
         self.tasksService.createTask(task: createTaskServiceInput)
+
         
-        self.coordinator.didFinish()
     }
     
     private func buildCreateTaskServiceInput(title: String, content: String) -> CreateTaskServiceInput {

@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 
 protocol TaskRepository {
-    func loadTasks() -> [Task]
-    func saveTask(input: TaskRepositoryInput) -> Task
-    func editTask(id: String, input: TaskRepositoryInput) throws -> Task
+    func loadTasks() -> Observable<[Task]>
+    func saveTask(input: TaskRepositoryInput) -> Observable<Void>
+    func editTask(id: String, input: TaskRepositoryInput) -> Observable<Task>
 }
